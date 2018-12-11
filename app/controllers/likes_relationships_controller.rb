@@ -1,4 +1,6 @@
 class LikesRelationshipsController < ApplicationController
+  before_action :require_user_logged_in
+  
   def create
     begin
       micropost = Micropost.find(params[:like_id])
