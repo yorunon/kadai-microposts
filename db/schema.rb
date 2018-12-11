@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181208062213) do
+ActiveRecord::Schema.define(version: 20181210083517) do
+
+  create_table "likes_relationships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.integer  "like_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["like_id"], name: "index_likes_relationships_on_like_id", using: :btree
+    t.index ["user_id"], name: "index_likes_relationships_on_user_id", using: :btree
+  end
 
   create_table "microposts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "content"
@@ -38,6 +47,8 @@ ActiveRecord::Schema.define(version: 20181208062213) do
     t.datetime "updated_at",      null: false
   end
 
+  add_foreign_key "likes_relationships", "microposts", column: "like_id"
+  add_foreign_key "likes_relationships", "users"
   add_foreign_key "microposts", "users"
   add_foreign_key "relationships", "users"
   add_foreign_key "relationships", "users", column: "follow_id"
